@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "create_all",
+      "type": "shell",
+      "command": "uv run src/db_manager.py create_all",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "drop_all",
+      "type": "shell",
+      "command": "uv run src/db_manager.py drop_all",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "reset",
+      "type": "shell",
+      "command": "uv run src/db_manager.py reset",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "seed",
+      "type": "shell",
+      "command": "uv run src/db_manager.py seed",
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+}

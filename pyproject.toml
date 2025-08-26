@@ -1,0 +1,24 @@
+[project]
+name = "bot-admin"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "inflect>=7.5.0",
+    "pytelegrambotapi>=4.28.0",
+    "python-dotenv>=1.1.1",
+    "sqlalchemy>=2.0.43",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[dependency-groups]
+dev = [
+    "faker>=37.5.3",
+    "ipython>=9.4.0",
+]
