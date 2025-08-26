@@ -17,7 +17,7 @@ def gen_kb_for_models():
     models_to_display = admin.models_names[offset:offset + limit]
     
     buttons = [
-        [InlineKeyboardButton(m, callback_data=f'am={m}')]
+        [InlineKeyboardButton(m, callback_data=f'admin:{m}')]
         for m in models_to_display
     ]
 
@@ -43,8 +43,9 @@ def gen_kb_for_records(sa_model_name, back_callback_data):
     return InlineKeyboardMarkup(buttons)
 
 
-def gen_kb_for_record_detail(sa_model_name):
+def gen_kb_for_record_detail(sa_model_name, id):
     buttons = [
+        [InlineKeyboardButton('Edit', callback_data=f'ame={sa_model_name}={id}')],
         [InlineKeyboardButton('<- Back --<', callback_data=f'am={sa_model_name}')]
     ]
 

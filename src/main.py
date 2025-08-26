@@ -5,6 +5,7 @@ import keyboards
 from models import Employee, Slut
 import admin
 import crud
+import session
 
 
 admin.register_model(Employee)
@@ -52,7 +53,7 @@ def admin_model_handler(call):
 @bot.callback_query_handler(lambda call: call.data.startswith('amd='))
 def admin_model_detail_handler(call):
 	_, sa_model_name, id = call.data.split('=', 3)
-	sa_model_class = admin.models[sa_model_name]
+	sa_model_class = admin.get_sa_model_by_name(sa_model_name)
 	sa_model_instance = crud.detail(sa_model_class, id)
 	column_names = admin.get_readable_model_columns(sa_model_class)
 	text = ''
@@ -62,8 +63,27 @@ def admin_model_detail_handler(call):
 		text,
 		call.message.chat.id,
 		call.message.id,
-		reply_markup=keyboards.gen_kb_for_record_detail(sa_model_name)
+		reply_markup=keyboards.gen_kb_for_record_detail(sa_model_name, id)
     )
+
+
+@bot.callback_query_handler(lambda call: call.data.startswith('ame='))
+def admin_model_edit_handler(call):
+	_, sa_model_name, id = call.data.split('=', 3)
+	sa_model_class = admin.get_sa_model_by_name(sa_model_name)
+	editable_field_names = admin.get_editable_model_columns(sa_model_class)
+	editable_fields_length = len(editable_field_names)
+
+	if editable_fields_length == 0:
+		bot.reply_to(call.message, 'Nothing to edit.')
+		return
+	
+	bot.reply_to(call.message, f'Enter: {editable_field_names[0]}')
+
+
+@bot.message_handler(func=lambda m: True)
+def any_message_handler(message):
+	bot.reply_to(message, message.text)
 
 
 if __name__ == '__main__':
