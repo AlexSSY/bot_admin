@@ -1,4 +1,5 @@
 import telebot
+from telebot.types import Message, CallbackQuery
 
 import config
 import keyboards
@@ -82,8 +83,12 @@ def admin_model_edit_handler(call):
 
 
 @bot.message_handler(func=lambda m: True)
-def any_message_handler(message):
-	bot.reply_to(message, message.text)
+def any_message_handler(message: Message):
+	user_id = message.from_user.id
+	state = session.retrieve(user_id, 'admin_state')
+
+	if state is not None:
+		pass
 
 
 if __name__ == '__main__':
