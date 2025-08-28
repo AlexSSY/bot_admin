@@ -79,16 +79,18 @@ def admin_model_edit_handler(call):
 		bot.reply_to(call.message, 'Nothing to edit.')
 		return
 	
+	user_id = call.message.from_user.id
+	session.store(user_id)
 	bot.reply_to(call.message, f'Enter: {editable_field_names[0]}')
 
 
 @bot.message_handler(func=lambda m: True)
 def any_message_handler(message: Message):
 	user_id = message.from_user.id
-	state = session.retrieve(user_id, 'admin_state')
+	stack = session.get_user_stack(user_id)
 
-	if state is not None:
-		pass
+	while not stack.is_empty():
+		stack.pop()
 
 
 if __name__ == '__main__':
